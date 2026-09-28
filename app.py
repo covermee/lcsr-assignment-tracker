@@ -31,3 +31,18 @@ def home():
     connection.close()
 
     return render_template("index.html", assignments=assignments)
+
+
+@app.route("/complete/<int:assignment_id>", methods=["POST"])
+def complete_assignment(assignment_id):
+    connection = sqlite3.connect("assignments.db")
+
+    connection.execute(
+        "UPDATE assignments SET completed = 1 WHERE id = ?",
+        (assignment_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("home"))

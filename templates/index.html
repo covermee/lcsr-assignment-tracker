@@ -27,17 +27,25 @@
 
         <button type="submit">Add Assignment</button>
     </form>
-<h2>Assignments</h2>
 
-<ul>
-    {% for assignment in assignments %}
-        <li>
-            {{ assignment[1] }} -
-            {{ assignment[2] }} -
-            Due: {{ assignment[3] }}
-        </li>
-    {% endfor %}
-</ul>
+    <h2>Assignments</h2>
+
+    <ul>
+        {% for assignment in assignments %}
+            <li>
+                {{ assignment[1] }} -
+                {{ assignment[2] }} -
+                Due: {{ assignment[3] }}
+
+                {% if assignment[4] == 0 %}
+                    <form method="POST" action="/complete/{{ assignment[0] }}" style="display:inline;">
+                        <button type="submit">Mark Complete</button>
+                    </form>
+                {% else %}
+                    <strong>Completed</strong>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
-
