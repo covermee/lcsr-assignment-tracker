@@ -44,6 +44,10 @@
                 {% else %}
                     <strong>Completed</strong>
                 {% endif %}
+
+                <form method="POST" action="/delete/{{ assignment[0] }}" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
             </li>
         {% endfor %}
     </ul>

@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -39,6 +40,21 @@ def complete_assignment(assignment_id):
 
     connection.execute(
         "UPDATE assignments SET completed = 1 WHERE id = ?",
+        (assignment_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("home"))
+
+
+@app.route("/delete/<int:assignment_id>", methods=["POST"])
+def delete_assignment(assignment_id):
+    connection = sqlite3.connect("assignments.db")
+
+    connection.execute(
+        "DELETE FROM assignments WHERE id = ?",
         (assignment_id,)
     )
 
