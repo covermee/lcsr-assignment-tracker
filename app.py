@@ -1,3 +1,4 @@
+import sqlite3
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -9,9 +10,22 @@ def home():
         course = request.form["course"]
         due_date = request.form["due_date"]
 
-        print(title)
-        print(course)
-        print(due_date)
+        connection = sqlite3.connect("assignments.db")
 
-    return render_template("index.html")
+        connection.execute(
+            "INSERT INTO assignments (title, course, due_date) VALUES (?, ?, ?)",
+            (title, course, due_date)
+        )
 
+        connection.commit()
+        connection.close()
+
+    connection = sqlite3.connect("assignments.db")
+
+    assignments = connection.execute(
+        "SELECT * FROM assignments"
+    ).fetchall()
+
+    connection.close()
+
+    return render_template("index.html", assignments=assignments)

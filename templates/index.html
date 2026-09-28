@@ -27,6 +27,17 @@
 
         <button type="submit">Add Assignment</button>
     </form>
+<h2>Assignments</h2>
+
+<ul>
+    {% for assignment in assignments %}
+        <li>
+            {{ assignment[1] }} -
+            {{ assignment[2] }} -
+            Due: {{ assignment[3] }}
+        </li>
+    {% endfor %}
+</ul>
 </body>
 </html>
 
